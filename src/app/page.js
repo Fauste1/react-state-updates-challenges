@@ -15,6 +15,7 @@
  * Bug 2 - score "catching up" when we update first name, because that's when we call the setter with the object which includes the mutated score data
  * Bug 3 - score disappearing when we change last name, because of inproperly implemented setPlayer call. We need to include the object data as well & only then modify the property
  * 
+ * Bonus: refactored handleFirstNameChange & handleLastNameChange into a single handleNameChange function
  */
 
 
@@ -30,20 +31,17 @@ export default function Scoreboard() {
   });
 
   function handlePlusClick() {
-    player.score++;
-  }
-
-  function handleFirstNameChange(e) {
     setPlayer({
       ...player,
-      firstName: e.target.value,
+      score: player.score + 1
     });
   }
 
-  function handleLastNameChange(e) {
+  function handleNameChange(e) {
     setPlayer({
-      lastName: e.target.value
-    });
+      ...player,
+      [e.target.name]: e.target.value,
+    })
   }
 
   return (
@@ -58,15 +56,17 @@ export default function Scoreboard() {
       <label>
         First name:
         <input
+          name="firstName"
           value={player.firstName}
-          onChange={handleFirstNameChange}
+          onChange={handleNameChange}
         />
       </label>
       <label>
         Last name:
         <input
+          name="lastName"
           value={player.lastName}
-          onChange={handleLastNameChange}
+          onChange={handleNameChange}
         />
       </label>
     </>
