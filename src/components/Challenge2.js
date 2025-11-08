@@ -14,8 +14,14 @@
  * Our solution: instead of referencing the actual initialPosition object in the position state object, we make a copy (by spreading) to prevent renders from setting the initialPosition values to the coordinates of the moved box.
  */
 
+/**
+ * 
+ * Challenge 3: Implement the same thing using Immer
+ * 
+ */
 
-import { useState } from 'react';
+
+import { useImmer } from 'use-immer';
 import Background from './Background.js';
 import Box from './Box.js';
 
@@ -25,7 +31,7 @@ const initialPosition = {
 };
 
 export default function Canvas() {
-  const [shape, setShape] = useState({
+  const [shape, updateShape] = useImmer({
     color: 'orange',
     position: {
         ...initialPosition
@@ -33,21 +39,16 @@ export default function Canvas() {
   });
 
   function handleMove(dx, dy) {
-    
-    setShape({
-        ...shape,
-        position: {
-            x: shape.position.x + dx,
-            y: shape.position.y + dy,
-        }
+    updateShape(draft => {
+        draft.position.x += dx
+        draft.position.y += dy
     })
   }
 
   function handleColorChange(e) {
-    setShape({
-      ...shape,
-      color: e.target.value
-    });
+    updateShape(draft => {
+        draft.color = e.target.value
+    })
   }
 
   return (
