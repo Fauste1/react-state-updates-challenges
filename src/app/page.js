@@ -10,6 +10,11 @@
  * 
  * Your task is to fix all of these bugs. As you fix them, explain why each of them happens.
  * 
+ * Solution: 
+ * Bug 1 - score not updating, because we're mutating an object directly instead of via useState.
+ * Bug 2 - score "catching up" when we update first name, because that's when we call the setter with the object which includes the mutated score data
+ * Bug 3 - score disappearing when we change last name, because of inproperly implemented setPlayer call. We need to include the object data as well & only then modify the property
+ * 
  */
 
 
